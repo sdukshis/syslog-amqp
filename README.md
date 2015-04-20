@@ -1,0 +1,2 @@
+# syslog-amqp
+Syslog collector
