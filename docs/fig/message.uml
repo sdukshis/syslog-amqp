@@ -1,0 +1,33 @@
+@startuml
+
+Message o-- MessageId
+Message o-- Datetime
+
+class Message {
+    +addTag()
+    +delTag()
+    +toString()
+    +addHeader()
+    +delHeader()
+
+    -id
+    -recv_time
+    -recv_host
+    -msg
+    -tags
+    -headers
+}
+
+class MessageId {
+    -id_bytes
+    +toString()
+}
+
+class Datetime {
+    +toString()
+
+    -epoch_time_t
+    -tz_offset
+}
+
+@enduml

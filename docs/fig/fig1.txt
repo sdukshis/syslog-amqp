@@ -1,0 +1,21 @@
+@startuml
+
+component sensorA
+component sensorB
+component sensorC
+
+component collector
+component broker
+
+UDP -- collector
+TCP -- collector
+TLS -- collector
+
+sensorA --> UDP
+sensorB --> TCP
+sensorC --> TLS
+
+AMQP -- broker
+
+collector --> AMQP
+@enduml

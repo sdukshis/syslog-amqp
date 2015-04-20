@@ -1,0 +1,13 @@
+@startuml
+
+interface MessageObserver
+interface MessageObservable
+
+interface Input
+
+Mess
+Input <|-- UDPInput
+Input <|-- TCPInput
+TCPInput <|-- TLSInput
+
+@enduml
