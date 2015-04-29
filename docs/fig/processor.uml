@@ -1,0 +1,43 @@
+@startuml
+
+interface MessageObserver {
+    +onMessage(m: Message)
+}
+
+MessageObserver <|-- MessageDecorator
+MessageObserver "1" o-- MessageDecorator
+interface MessageDecorator {
+    +onMessage(m: Message)
+}
+
+MessageObserver <|-- AMQPPublisher
+class AMQPPublisher {
+    -AMQPChannel
+
+    +onMessage(m: Message)
+}
+
+MessageObserver <|-- StdoutPublisher
+class StdoutPublisher {
+    +onMessage(m: Message)
+}
+
+MessageDecorator <|-- AddLabelDecorator
+class AddLabelDecorator {
+    -label
+
+    +onMessage(m: Message)
+    -addLabel(m: Message)
+}
+
+MessageDecorator <|-- NSLookupDecorator
+class NSLookupDecorator {
+    - resolver
+
+    +onMessage(m: Message)
+    -resolve(a: Addr)
+}
+
+
+
+@enduml

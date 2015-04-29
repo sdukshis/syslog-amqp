@@ -1,1 +1,5 @@
-add_executable(${PROJECT_NAME} main.cpp)
+set(SOURCES
+    UDPListener.cpp
+)
+
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES})

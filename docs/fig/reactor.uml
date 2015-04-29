@@ -1,0 +1,43 @@
+@startuml
+
+interface Reactor {
+    +createUDPListener(): UDPListener
+    +createTCPListener(): TCPListener
+    +createTLSListener(): TLSListener
+
+    +createAMQPChannel(): AMQPChannel
+    
+    +start()
+    +stop()
+}
+
+class UDPListener
+class TCPListener
+class TLSListener
+class AMQPChannel
+
+UDPListener <|-- ASIOUDPListener
+TCPListener <|-- ASIOTCPListener
+TLSListener <|-- ASIOTLSListener
+AMQPChannel <|-- ASIOAMQPChannel
+
+Reactor <|-- ASIOReactor
+
+class ASIOReactor {
+    +createUDPListener(): ASIOUDPListener
+    +createTCPListener(): ASIOTCPListener
+    +createTLSListener(): ASIOTLSListener
+
+    +createAMQPChannel(): ASIOAMQPChannel
+    
+    +start()
+    +stop()    
+}
+
+ASIOUDPListener "0..n" o-- ASIOReactor
+ASIOTCPListener "0..n" o-- ASIOReactor
+ASIOTLSListener "0..n" o-- ASIOReactor
+ASIOAMQPChannel "0..n" o-- ASIOReactor
+
+
+@enduml

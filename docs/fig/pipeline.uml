@@ -1,0 +1,18 @@
+@startuml
+
+actor SyslogSensor
+
+SyslogSensor -> UDPListener: recv
+
+UDPListener -> Codec: onBegin
+UDPListener -> Codec: onData
+UDPListener -> Codec: onEnd
+
+Codec -> Processor: message
+
+Processor -> Processor: process
+
+Processor -> Publisher: publish
+
+Publisher -> AMQP Broken: publish
+@enduml

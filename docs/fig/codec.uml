@@ -1,0 +1,35 @@
+@startuml
+interface MessageObserver {
+    +onMessage(m: Message)
+}
+
+interface MessageObservable {
+    +addObserver(o: MessageObserver)
+    +delObserver(o: MessageObserver)
+    +notifyObservers()
+}
+
+interface DataObserver {
+    +onBegin(s: Source)
+    +onData(d: Data)
+    +onEnd()
+}
+
+class LinesCodec {
+    - observers
+
+    +addObserver(o: MessageObserver)
+    +delObserver(o: MessageObserver)
+    +notifyObservers()
+    
+    +onBegin(s: Source)
+    +onData(d: Data)
+    +onEnd()
+}
+
+DataObserver <|-- LinesCodec
+MessageObservable <|-- LinesCodec
+
+MessageObserver "0..n" o-- LinesCodec
+
+@enduml

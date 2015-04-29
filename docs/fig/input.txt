@@ -1,13 +1,67 @@
 @startuml
 
-interface MessageObserver
-interface MessageObservable
+interface DataObserver {
+    +onBegin(s: Source)
+    +onData(d: Data)
+    +onEnd()
+}
 
-interface Input
+interface DataObservable {
+    +addObserver(o: DataObserver)
+    +delObserver(o: DataObserver)
+    +notifyObservers()
+}
 
-Mess
-Input <|-- UDPInput
-Input <|-- TCPInput
-TCPInput <|-- TLSInput
+interface NetListener {
+    +getEndpoint()
+    +start()
+    +stop()
+}
 
+class Endpoint {
+    +getAddr()
+    +getPort()
+    +getInterfaceFamily()
+}
+
+DataObservable <|-- TCPListener
+NetListener <|-- TCPListener
+DataObservable <|-- UDPListener
+NetListener <|-- UDPListener
+TCPListener <|-- TLSListener
+
+class TCPListener {
+    +addObserver(o: DataObserver)
+    +delObserver(o: DataObserver)
+    +notifyObservers()
+
+    +getEndpoint()
+    +start()
+    +stop()
+}
+
+Endpoint *-- TCPListener
+
+class UDPListener {
+    +addObserver(o: DataObserver)
+    +delObserver(o: DataObserver)
+    +notifyObservers()
+
+    +getEndpoint()
+    +start()
+    +stop()
+}
+
+Endpoint *-- UDPListener
+
+class TLSListener {
+    - cert
+    - key
+
+    +getCert()
+    +getKey()
+}
+
+DataObserver "0..n" o-- TCPListener
+DataObserver "0..n" o-- UDPListener
 @enduml
