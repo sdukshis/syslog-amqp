@@ -1,9 +1,6 @@
 [submodule "3rd_party/asio"]
 	path = 3rd_party/asio
 	url = git@github.com:chriskohlhoff/asio.git
-[submodule "3rd_party/gtest"]
-	path = 3rd_party/gtest
-	url = git@github.com:kgcd/gtest.git
 [submodule "3rd_party/gmock"]
 	path = 3rd_party/gmock
 	url = git@github.com:mecury421/gmock.git
