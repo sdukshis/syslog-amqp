@@ -8,8 +8,9 @@
 #include <asio.hpp>
 
 #include "Endpoint.h"
+#include "DataObservable.h"
 
-class UDPListener: public NetListener {
+class UDPListener: public NetListener, public DataObservable {
  public:
     UDPListener() = delete;
 
