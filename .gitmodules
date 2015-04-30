@@ -4,3 +4,6 @@
 [submodule "3rd_party/gmock"]
 	path = 3rd_party/gmock
 	url = git@github.com:mecury421/gmock.git
+[submodule "3rd_party/rapidjson"]
+	path = 3rd_party/rapidjson
+	url = git@github.com:miloyip/rapidjson.git
