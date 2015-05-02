@@ -131,5 +131,4 @@ TEST(DataObservable, moveAssignment) {
     observable.notifyObserversOnBegin(Endpoint{"", 0}, "");
 
     new_observable.notifyObserversOnBegin(Endpoint{"", 0}, "");
-
 }
