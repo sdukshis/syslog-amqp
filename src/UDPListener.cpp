@@ -69,7 +69,8 @@ void UDPListener::start_receive() {
 void UDPListener::on_data_received(const std::error_code &error,
                                    std::size_t bytes_received) {
     if (!error || error == asio::error::message_size) {
-        notifyObserversOnBegin(Endpoint{"", 0}, "udp");
+        notifyObserversOnBegin(Endpoint{remote_endpoint_.address().to_string(),
+                                        remote_endpoint_.port()}, "udp");
         notifyObserversOnData(recv_buffer_.data(), bytes_received);
         notifyObserversOnEnd();
     } else {

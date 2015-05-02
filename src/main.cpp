@@ -29,7 +29,7 @@ class MessageLogger: public MessageObserver {
 };
 
 #include <asio.hpp>
-int main(int argc, char const *argv[])
+int main(int , char const *[])
 {
     asio::io_service io_service;
     UDPListener udp_listener(Endpoint("0.0.0.0", 1313), io_service);
@@ -47,6 +47,7 @@ int main(int argc, char const *argv[])
     udp_listener.start();
 
     io_service.run();
+
     /* code */
     return 0;
 }

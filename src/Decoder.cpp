@@ -29,8 +29,21 @@ void Decoder::onBegin(const Endpoint &recv_host,
 }
 
 void Decoder::onData(const char *buffer, std::size_t length) {
-    recv_buffer_.resize(recv_buffer_.size() + length);
+    recv_buffer_.reserve(recv_buffer_.size() + length);
     std::copy_n(buffer, length, std::back_inserter(recv_buffer_));
+    auto eol = recv_buffer_.find_first_of('\n');
+    if (eol != std::string::npos) {
+        Message message{recv_host_.getAddr(),
+                        std::string{recv_buffer_.data(),
+                                    eol}};
+        if (!tag_.empty()) {
+            message.addTag(tag_);
+        }
+        notifyObservers(message);
+        std::copy(recv_buffer_.begin() + eol + 1, recv_buffer_.end(),
+                  recv_buffer_.begin());
+        recv_buffer_.resize(recv_buffer_.size() - eol - 1);
+    }
 }
 
 void Decoder::onEnd() {

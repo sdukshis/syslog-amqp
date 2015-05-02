@@ -48,7 +48,7 @@ class Message {
 
 template<class T, class U>
 Message::Message(T &&recv_host, U &&msg)
-    : recv_host_(std::forward<T>(recv_host_))
+    : recv_host_(std::forward<T>(recv_host))
     , msg_(std::forward<U>(msg)) { }
 
 inline bool operator==(const Message &lhs, const Message &rhs) noexcept {
