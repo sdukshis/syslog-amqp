@@ -6,3 +6,4 @@ script:
     - cmake ..
     - make
     - ./build/tests/syslog-amqp.test
+
