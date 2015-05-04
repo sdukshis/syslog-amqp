@@ -31,8 +31,8 @@ void Decoder::onBegin(const Endpoint &recv_host,
 void Decoder::onData(const char *buffer, std::size_t length) {
     recv_buffer_.reserve(recv_buffer_.size() + length);
     std::copy_n(buffer, length, std::back_inserter(recv_buffer_));
-    auto eol = recv_buffer_.find_first_of('\n');
-    if (eol != std::string::npos) {
+    std::string::size_type eol = std::string::npos;
+    while ((eol = recv_buffer_.find_first_of('\n')) != std::string::npos) {
         Message message{recv_host_,
                         std::string{recv_buffer_.data(),
                                     eol}};
@@ -47,9 +47,11 @@ void Decoder::onData(const char *buffer, std::size_t length) {
 }
 
 void Decoder::onEnd() {
-    Message message{recv_host_, recv_buffer_};
-    if (!tag_.empty()) {
-        message.addTag(tag_);
+    if (!recv_buffer_.empty()) {
+        Message message{recv_host_, recv_buffer_};
+        if (!tag_.empty()) {
+            message.addTag(tag_);
+        }
+        notifyObservers(message);
     }
-    notifyObservers(message);
 }
