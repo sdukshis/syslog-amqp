@@ -1,12 +1,24 @@
 #include "Datetime.h"
 
-Datetime::Datetime(std::chrono::seconds epoch_time_t,
-                   std::chrono::minutes tz_offset)
-    : epoch_time_t_{epoch_time_t}
-    , tz_offset_{tz_offset} { }
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 
+/*
+ * By default set Datetime time_point to current time
+ */
+
+Datetime::Datetime()
+    : time_point_{clock_t::now()} { }
+
+/*
+ * Convert Datetime to ISO8601 format YYYY-MM-DDTHH:MM:SS+HH:MM
+ */
 std::string Datetime::toString() const {
-    return "1970-01-01T00:00:00Z";
+    std::time_t time_point = clock_t::to_time_t(time_point_);
+    std::stringstream ss;
+    ss << std::put_time(std::localtime(&time_point), "%FT%T%z");
+    return ss.str();
 }
 
 void Datetime::toString(std::string &s) const {

@@ -7,8 +7,7 @@
 
 class Datetime {
  public:
-    Datetime(std::chrono::seconds = std::chrono::seconds{0},
-             std::chrono::minutes = std::chrono::minutes{0});
+    Datetime();
 
     Datetime(const Datetime &) noexcept = default;
 
@@ -23,13 +22,12 @@ class Datetime {
     void toString(std::string &) const;
 
  private:
-    std::chrono::seconds epoch_time_t_;
-    std::chrono::minutes tz_offset_;
+    using clock_t = std::chrono::system_clock;
+    clock_t::time_point time_point_;
 };  // class Datetime
 
 inline bool operator==(const Datetime &lhs, const Datetime &rhs) noexcept {
-    return lhs.epoch_time_t_ == rhs.epoch_time_t_ &&
-           lhs.tz_offset_ == rhs.tz_offset_;
+    return lhs.time_point_ == rhs.time_point_;
 }
 
 inline bool operator!=(const Datetime &lhs, const Datetime &rhs) noexcept {
