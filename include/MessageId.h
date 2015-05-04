@@ -22,7 +22,8 @@ class MessageId {
     void toString(std::string &) const;
 
  private:
-    std::array<unsigned char, 16> id_bytes_;
+    using container = std::array<unsigned char, 16>;
+    container id_bytes_;
 };  // class MessageId
 
 inline bool operator==(const MessageId &lhs, const MessageId &rhs) noexcept {
