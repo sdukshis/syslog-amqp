@@ -41,3 +41,6 @@ TEST(Datetime, toString) {
     ASSERT_EQ(str, time1.toString());
 }
 
+TEST(Datetime, equal) {
+    ASSERT_EQ((Datetime{}), (Datetime{}));
+}

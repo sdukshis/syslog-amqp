@@ -24,6 +24,14 @@ class Message {
 
     friend bool operator==(const Message &, const Message &) noexcept;
 
+    const MessageId & getId() const;
+
+    const Datetime & getRecvTime() const;
+
+    const Endpoint & getRecvHost() const;
+
+    const std::string & getRaw() const;
+
     std::string toString() const;
 
     void toString(std::string &) const;
@@ -32,9 +40,17 @@ class Message {
 
     bool delTag(const std::string &);
 
+    using tag_visitor_t = std::function<void(const std::string &)>;
+
+    void visitTags(tag_visitor_t) const;
+
     void setHeader(const std::string &key, const std::string &val);
 
     bool delHeader(const std::string &key);
+
+    using header_visitor_t = std::function<void(const std::string &, const std::string &)>;
+
+    void visitHeaders(header_visitor_t) const;
 
  private:
     friend class MessageEncoder;
@@ -62,6 +78,22 @@ inline bool operator!=(const Message &lhs, const Message &rhs) noexcept {
 
 inline std::ostream & operator<<(std::ostream &stream, const Message &msg) {
     return stream << msg.toString();
+}
+
+inline const MessageId & Message::getId() const {
+    return id_;
+}
+
+inline const Datetime & Message::getRecvTime() const {
+    return recv_time_;
+}
+
+inline const Endpoint & Message::getRecvHost() const {
+    return recv_host_;
+}
+
+inline const std::string & Message::getRaw() const {
+    return msg_;
 }
 
 #endif  // MESSAGE_H

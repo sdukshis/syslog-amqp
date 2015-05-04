@@ -26,8 +26,11 @@ class Datetime {
     clock_t::time_point time_point_;
 };  // class Datetime
 
+/*
+ * Compare time_points with seconds accuracy
+ */
 inline bool operator==(const Datetime &lhs, const Datetime &rhs) noexcept {
-    return lhs.time_point_ == rhs.time_point_;
+    return std::chrono::duration_cast<std::chrono::seconds>(lhs.time_point_ - rhs.time_point_).count() == 0;
 }
 
 inline bool operator!=(const Datetime &lhs, const Datetime &rhs) noexcept {
