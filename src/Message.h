@@ -7,6 +7,7 @@
 
 #include "Datetime.h"
 #include "MessageId.h"
+#include "Endpoint.h"
 
 class Message {
  public:
@@ -40,7 +41,7 @@ class Message {
 
     MessageId id_;
     Datetime recv_time_;
-    std::string recv_host_;
+    Endpoint recv_host_;
     std::string msg_;
     std::set<std::string> tags_;
     std::map<std::string, std::string> headers_;

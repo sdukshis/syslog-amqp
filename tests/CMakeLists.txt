@@ -7,6 +7,8 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/src/DataObservable.cpp
     ${CMAKE_SOURCE_DIR}/src/MessageId.cpp
     ${CMAKE_SOURCE_DIR}/src/Datetime.cpp
+    ${CMAKE_SOURCE_DIR}/src/Message.cpp
+    ${CMAKE_SOURCE_DIR}/src/Endpoint.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/3rd_party/gmock/include)
@@ -17,6 +19,6 @@ add_executable(syslog-amqp.test
     test_MessageId.cpp
     test_DataObserver.cpp
     test_Datetime.cpp
-)
+test_Message.cpp test_Endpoint.cpp)
 
 target_link_libraries(syslog-amqp.test gtest_main gtest gmock)

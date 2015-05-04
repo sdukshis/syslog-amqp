@@ -27,6 +27,8 @@ class Endpoint {
 
     port_t getPort() const;
 
+    std::string toString() const;
+
     friend bool operator==(const Endpoint &, const Endpoint &);
 
     friend std::ostream & operator<<(std::ostream &, const Endpoint &);
@@ -36,26 +38,7 @@ class Endpoint {
     port_t port_;
 };  // class Endpoint
 
-inline Endpoint::Endpoint(const std::string &addr, port_t port)
-    : addr_{addr}
-    , port_{port} { }
 
-inline Endpoint & Endpoint::operator=(const Endpoint &other) {
-    Endpoint tmp{other};
-    swap(tmp);
-    return *this;
-}
-
-inline Endpoint & Endpoint::operator=(Endpoint &&other) {
-    addr_ = std::move(other.addr_);
-    port_ = other.port_;
-    return *this;
-}
-
-inline void Endpoint::swap(Endpoint &other) {
-    std::swap(addr_, other.addr_);
-    std::swap(port_, other.port_);
-}
 
 inline const std::string & Endpoint::getAddr() const {
     return addr_;
@@ -75,7 +58,7 @@ inline bool operator!=(const Endpoint &lhs, const Endpoint &rhs) {
 }
 
 inline std::ostream & operator<<(std::ostream &stream, const Endpoint &e) {
-    return stream << (e.addr_.empty() ? "*" : e.addr_) << ":" << e.port_;
+    return stream << e.toString();
 }
 
 

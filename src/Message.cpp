@@ -9,7 +9,8 @@ std::string Message::toString() const {
 
     writer.StartObject();
     writer.Key("recv_host");
-    writer.String(recv_host_.data(), recv_host_.size());
+    auto recv_host_str = recv_host_.toString();
+    writer.String(recv_host_str.data(), recv_host_str.size());
     writer.Key("recv_time");
     auto recv_time_str = recv_time_.toString();
     writer.String(recv_time_str.data(), recv_time_str.size());

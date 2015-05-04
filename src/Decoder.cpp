@@ -33,7 +33,7 @@ void Decoder::onData(const char *buffer, std::size_t length) {
     std::copy_n(buffer, length, std::back_inserter(recv_buffer_));
     auto eol = recv_buffer_.find_first_of('\n');
     if (eol != std::string::npos) {
-        Message message{recv_host_.getAddr(),
+        Message message{recv_host_,
                         std::string{recv_buffer_.data(),
                                     eol}};
         if (!tag_.empty()) {
@@ -47,7 +47,7 @@ void Decoder::onData(const char *buffer, std::size_t length) {
 }
 
 void Decoder::onEnd() {
-    Message message{recv_host_.getAddr(), recv_buffer_};
+    Message message{recv_host_, recv_buffer_};
     if (!tag_.empty()) {
         message.addTag(tag_);
     }

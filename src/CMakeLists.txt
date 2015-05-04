@@ -6,6 +6,7 @@ set(SOURCES
     Datetime.cpp
     Message.cpp
     MessageId.cpp
+    Endpoint.cpp
 )
 
 
