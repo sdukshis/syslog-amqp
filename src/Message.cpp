@@ -1,42 +1,13 @@
 #include "Message.h"
 
-#include "rapidjson/writer.h"
-#include "rapidjson/stringbuffer.h"
+#include "JsonMessageEncoder.h"
 
 std::string Message::toString() const {
-    rapidjson::StringBuffer buffer;
-    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    JsonMessageEncoder encoder;
 
-    writer.StartObject();
-    writer.Key("recv_host");
-    auto recv_host_str = recv_host_.toString();
-    writer.String(recv_host_str.data(), recv_host_str.size());
-    writer.Key("recv_time");
-    auto recv_time_str = recv_time_.toString();
-    writer.String(recv_time_str.data(), recv_time_str.size());
-    writer.Key("raw");
-    writer.String(msg_.data(), msg_.size());
-    if (!tags_.empty()) {
-        writer.Key("tags");
-        writer.StartArray();
-        for (const auto &tag : tags_) {
-            writer.String(tag.data(), tag.size());
-        }
-        writer.EndArray();
-    }
-    if (!headers_.empty()) {
-        writer.Key("headers");
-        writer.StartObject();
-        for (const auto &header : headers_) {
-            writer.Key(header.first.data(), header.first.size());
-            writer.String(header.second.data(), header.second.size());
-        }
-        writer.EndObject();
-    }
+    encoder.encode(*this);
 
-    writer.EndObject();
-
-    return buffer.GetString();
+    return std::string(encoder.begin(), encoder.end());
 }
 
 void Message::toString(std::string &s) const {

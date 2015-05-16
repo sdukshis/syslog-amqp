@@ -10,4 +10,4 @@ set(SOURCES
 )
 
 
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES})
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES} JsonMessageEncoder.cpp)
