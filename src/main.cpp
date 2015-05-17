@@ -2,6 +2,8 @@
 #include "UDPListener.h"
 #include "Decoder.h"
 
+#include "AsioReactor.h"
+
 #include "MessageObserver.h"
 #include "DataObserver.h"
 #include "PublishMessageObserver.h"
@@ -35,15 +37,13 @@ class MessageLogger: public MessageObserver {
 #include <asio.hpp>
 int main(int , char const *[])
 try {
-    asio::io_service io_service;
-    AsioRabbitMQPublisherFactory factory{Endpoint{"127.0.0.1", 5672}, io_service};
-
+    AsioReactor reactor;
 
     JsonMessageEncoder encoder;
-    std::unique_ptr<RabbitMQPublisher> rabbitmq_publisher{factory.createRabbitMQPublisher()};
+    std::unique_ptr<RabbitMQPublisher> rabbitmq_publisher{reactor.createRabbitMQPublisher()};
     PublishMessageObserver publish_observer{*rabbitmq_publisher, "events", RabbitMQPublisher::ExchangeType::Topic,
                                             "raw", encoder};
-    UDPListener udp_listener(Endpoint("0.0.0.0", 1313), io_service);
+    std::unique_ptr<UDPListener> udp_listener{reactor.createUDPListener(Endpoint{"0.0.0.0", 1313})};
 
     MessageLogger message_logger;
     DataLogger data_logger;
@@ -53,12 +53,10 @@ try {
     decoder.addObserver(&message_logger);
     decoder.addObserver(&publish_observer);
 
-    udp_listener.addObserver(&data_logger);
-    udp_listener.addObserver(&decoder);
+    udp_listener->addObserver(&data_logger);
+    udp_listener->addObserver(&decoder);
 
-    udp_listener.start();
-
-    io_service.run();
+    reactor.run();
 
     /* code */
     return EXIT_SUCCESS;

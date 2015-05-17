@@ -8,7 +8,9 @@ using namespace asio::ip;
 UDPListener::UDPListener(const Endpoint &endpoint, asio::io_service &io)
     : endpoint_{endpoint} 
     , socket_{io, udp::endpoint(address::from_string(endpoint_.getAddr().c_str()),
-                                endpoint_.getPort())} { }
+                                endpoint_.getPort())} {
+    start_receive();
+}
 
 UDPListener::UDPListener(UDPListener &&other)
     : endpoint_{std::move(other.endpoint_)}
@@ -60,10 +62,8 @@ void UDPListener::start_receive() {
                 [this] (const std::error_code &error,
                         std::size_t bytes_received) {
                     on_data_received(error, bytes_received);
-                    if (!is_stopped()) {
-                        start_receive();
-                    }
-                });    
+                    start_receive();
+                });
 }
 
 void UDPListener::on_data_received(const std::error_code &error,
