@@ -15,7 +15,5 @@ PublishMessageObserver::~PublishMessageObserver() { }
 
 void PublishMessageObserver::onMessage(const Message &msg) {
     encoder_.encode(msg);
-    const char *data = encoder_.begin();
-    std::size_t length = encoder_.end() - data;
-    publisher_.basicPublish(exchange_, routing_key_, data, length);
+    publisher_.basicPublish(exchange_, routing_key_, encoder_.begin(), encoder_.size());
 }

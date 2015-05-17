@@ -15,7 +15,7 @@ set(SOURCES
 )
 
 
-add_executable(${PROJECT_NAME} main.cpp ${SOURCES} RabbitMQPublisherFactory.h AsioRabbitMQPublisherFactory.cpp AsioRabbitMQPublisherFactory.h AsioReactor.cpp AsioReactor.h)
+add_executable(${PROJECT_NAME} main.cpp ${SOURCES} RabbitMQPublisherFactory.h AsioRabbitMQPublisherFactory.cpp AsioRabbitMQPublisherFactory.h AsioReactor.cpp AsioReactor.h StdoutPublisher.cpp StdoutPublisher.h)
 
 target_link_libraries(${PROJECT_NAME}
     amqp-cpp
