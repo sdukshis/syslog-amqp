@@ -33,7 +33,7 @@ std::string MessageId::toString() const {
            << (int)octet;
     };
 
-    auto octet = std::cbegin(id_bytes_);
+    auto octet = std::begin(id_bytes_);
     fmt(*octet++); fmt(*octet++); fmt(*octet++); fmt(*octet++);
     ss << '-';
     fmt(*octet++); fmt(*octet++);
@@ -44,7 +44,7 @@ std::string MessageId::toString() const {
     ss << '-';
     fmt(*octet++); fmt(*octet++); fmt(*octet++); fmt(*octet++); fmt(*octet++); fmt(*octet++);
 
-    assert(octet == std::cend(id_bytes_));
+    assert(octet == std::end(id_bytes_));
     return ss.str();
 }
 

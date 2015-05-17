@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <set>
+#include <functional>
 
 #include "Datetime.h"
 #include "MessageId.h"

@@ -4,6 +4,9 @@
 
 #include "MessageObserver.h"
 #include "DataObserver.h"
+#include "PublishMessageObserver.h"
+#include "JsonMessageEncoder.h"
+#include "AsioRabbitMQPublisher.h"
 
 #include <iostream>
 
@@ -30,8 +33,13 @@ class MessageLogger: public MessageObserver {
 
 #include <asio.hpp>
 int main(int , char const *[])
-{
+try {
     asio::io_service io_service;
+    AsioRabbitMQPublisher rabbitmq_publisher{Endpoint{"127.0.0.1", 5672}, io_service};
+
+    JsonMessageEncoder encoder;
+    PublishMessageObserver publish_observer{rabbitmq_publisher, "events", RabbitMQPublisher::ExchangeType::Topic,
+                                            "raw", encoder};
     UDPListener udp_listener(Endpoint("0.0.0.0", 1313), io_service);
 
     MessageLogger message_logger;
@@ -40,6 +48,7 @@ int main(int , char const *[])
     Decoder decoder;
 
     decoder.addObserver(&message_logger);
+    decoder.addObserver(&publish_observer);
 
     udp_listener.addObserver(&data_logger);
     udp_listener.addObserver(&decoder);
@@ -49,5 +58,8 @@ int main(int , char const *[])
     io_service.run();
 
     /* code */
-    return 0;
+    return EXIT_SUCCESS;
+} catch (const std::exception &e) {
+    std::cerr << "Fatal error: " << e.what() << std::endl;
+    return EXIT_FAILURE;
 }

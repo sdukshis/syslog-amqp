@@ -1,5 +1,6 @@
 #include "MessageObservable.h"
 
+#include <algorithm>
 #include <assert.h>
 
 #include "MessageObserver.h"

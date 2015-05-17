@@ -24,4 +24,9 @@ add_executable(syslog-amqp.test
     test_Datetime.cpp
 test_Message.cpp test_Endpoint.cpp test_JsonMessageEncoder.cpp test_MessageObserver.cpp)
 
-target_link_libraries(syslog-amqp.test gtest_main gtest gmock)
+target_link_libraries(syslog-amqp.test
+    gtest_main
+    gtest
+    gmock
+#    asan
+)

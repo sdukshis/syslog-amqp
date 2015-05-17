@@ -14,7 +14,11 @@ interface Reactor {
 class UDPListener
 class TCPListener
 class TLSListener
-class AMQPChannel
+class AMQPChannel {
+    +declareExchange(exchange: String, type: String, durable: Bool)
+    +setRoutingKey(k: String)
+    +publishMessage(m: Message)
+}
 
 UDPListener <|-- ASIOUDPListener
 TCPListener <|-- ASIOTCPListener

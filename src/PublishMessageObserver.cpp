@@ -1,0 +1,20 @@
+#include "PublishMessageObserver.h"
+
+#include "RabbitMQPublisher.h"
+#include "MessageEncoder.h"
+
+PublishMessageObserver::PublishMessageObserver(RabbitMQPublisher &publisher, const std::string &exchange,
+                                               RabbitMQPublisher::ExchangeType exchange_type,
+                                               const std::string &routing_key, MessageEncoder &encoder)
+        : publisher_{publisher}, exchange_{exchange}, exchange_type_{exchange_type}, routing_key_{routing_key},
+          encoder_{encoder} {
+}
+
+PublishMessageObserver::~PublishMessageObserver() { }
+
+void PublishMessageObserver::onMessage(const Message &msg) {
+    encoder_.encode(msg);
+    const char *data = encoder_.begin();
+    std::size_t length = encoder_.end() - data;
+    publisher_.basicPublish(exchange_, routing_key_, data, length);
+}

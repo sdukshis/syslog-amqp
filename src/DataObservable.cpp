@@ -1,5 +1,6 @@
 #include "DataObservable.h"
 
+#include <algorithm>
 #include <assert.h>
 
 #include "Endpoint.h"

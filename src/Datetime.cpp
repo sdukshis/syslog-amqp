@@ -16,9 +16,12 @@ Datetime::Datetime()
  */
 std::string Datetime::toString() const {
     std::time_t time_point = clock_t::to_time_t(time_point_);
-    std::stringstream ss;
-    ss << std::put_time(std::localtime(&time_point), "%FT%T%z");
-    return ss.str();
+    // FIXME: gcc-4.9 still doesn't support std::put_time
+    size_t format_size = sizeof("YYYY-MM-DDTHH:SS:MM+HH:MM");
+    char str[format_size + 1];
+    std::strftime(str, format_size, "%FT%T%z", std::localtime(&time_point));
+    // ss << std::put_time(std::localtime(&time_point), "%FT%T%z");
+    return str;
 }
 
 void Datetime::toString(std::string &s) const {

@@ -45,7 +45,6 @@ TEST(Endpoint, moveAssign) {
 
     dest = std::move(orig);
 
-    ASSERT_TRUE(orig.getAddr().empty());
     ASSERT_EQ("192.0.2.1", dest.getAddr());
     ASSERT_EQ(8080, dest.getPort());
 }

@@ -7,8 +7,13 @@
 
 std::string time_t_to_str(const time_t t) {
     std::stringstream ss;
-    ss << std::put_time(std::localtime(&t), "%FT%T%z");
-    return ss.str();
+    // FIXME: gcc-4.9 still doesn't support std::put_time
+    size_t format_size = sizeof("YYYY-MM-DDTHH:SS:MM+HH:MM");
+    char str[format_size + 1];
+    std::strftime(str, format_size, "%FT%T%z", std::localtime(&t));
+
+    // ss << std::put_time(std::localtime(&t), "%FT%T%z");
+    return str;
 }
 
 TEST(Datetime, defaultCtor) {
