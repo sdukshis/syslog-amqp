@@ -8,6 +8,7 @@ PublishMessageObserver::PublishMessageObserver(RabbitMQPublisher &publisher, con
                                                const std::string &routing_key, MessageEncoder &encoder)
         : publisher_{publisher}, exchange_{exchange}, exchange_type_{exchange_type}, routing_key_{routing_key},
           encoder_{encoder} {
+    publisher.declareExchange(exchange_, exchange_type_);
 }
 
 PublishMessageObserver::~PublishMessageObserver() { }

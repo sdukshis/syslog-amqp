@@ -7,7 +7,7 @@ add_definitions(-Wall)
 add_definitions(-Wextra)
 #add_definitions(-Werror)
 add_definitions(--std=c++1y)
-#add_definitions(-fsanitize=address)
+#add_definitions(-faddress-sanitizer)
 #add_definitions(-fno-omit-frame-pointer)
 add_definitions(-DASIO_STANDALONE)
 

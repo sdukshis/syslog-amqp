@@ -7,6 +7,7 @@
 #include "PublishMessageObserver.h"
 #include "JsonMessageEncoder.h"
 #include "AsioRabbitMQPublisher.h"
+#include "AsioRabbitMQPublisherFactory.h"
 
 #include <iostream>
 
@@ -35,10 +36,12 @@ class MessageLogger: public MessageObserver {
 int main(int , char const *[])
 try {
     asio::io_service io_service;
-    AsioRabbitMQPublisher rabbitmq_publisher{Endpoint{"127.0.0.1", 5672}, io_service};
+    AsioRabbitMQPublisherFactory factory{Endpoint{"127.0.0.1", 5672}, io_service};
+
 
     JsonMessageEncoder encoder;
-    PublishMessageObserver publish_observer{rabbitmq_publisher, "events", RabbitMQPublisher::ExchangeType::Topic,
+    std::unique_ptr<RabbitMQPublisher> rabbitmq_publisher{factory.createRabbitMQPublisher()};
+    PublishMessageObserver publish_observer{*rabbitmq_publisher, "events", RabbitMQPublisher::ExchangeType::Topic,
                                             "raw", encoder};
     UDPListener udp_listener(Endpoint("0.0.0.0", 1313), io_service);
 
