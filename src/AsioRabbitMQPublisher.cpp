@@ -40,3 +40,9 @@ void AsioRabbitMQPublisher::basicPublish(const std::string &exchange, const std:
     std::clog << "AsioRabbitMQPublisher::basicPublish" << std::endl;
     channel_->publish(exchange, routing_key, data, length);
 }
+
+
+void AsioRabbitMQPublisher::close() {
+    assert(channel_);
+    channel_->close();
+}

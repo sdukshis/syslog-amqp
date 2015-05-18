@@ -26,13 +26,18 @@ AsioRabbitMQPublisherFactory::AsioRabbitMQPublisherFactory(const Endpoint &serve
     doRead();
 }
 
+
+AsioRabbitMQPublisherFactory::~AsioRabbitMQPublisherFactory() {
+    stop();
+}
+
 RabbitMQPublisher *AsioRabbitMQPublisherFactory::createRabbitMQPublisher() {
     std::clog << "AsioRabbitMQPublisherFactory::createRabbitMQPublisher" << std::endl;
     async_mode_ = false;
-    auto publisher = new AsioRabbitMQPublisher{new AMQP::Channel{connection_.get()}};
+    publishers_.emplace_back(new AsioRabbitMQPublisher{new AMQP::Channel{connection_.get()}});
     async_mode_ = true;
     doRead();
-    return publisher;
+    return publishers_.back().get();
 }
 
 void AsioRabbitMQPublisherFactory::onData(AMQP::Connection *, const char *buffer, size_t size) {
@@ -84,4 +89,12 @@ void AsioRabbitMQPublisherFactory::doRead() {
         size_t bytes_parsed = connection_->parse(buffer_.data(), bytes_read);
         assert(bytes_parsed == bytes_read);
     }
+}
+
+void AsioRabbitMQPublisherFactory::stop() {
+    for (auto &publisher : publishers_) {
+        publisher->close();
+    }
+    connection_->close();
+    socket_.close();
 }

@@ -20,7 +20,8 @@ RabbitMQPublisher *AsioReactor::createRabbitMQPublisher() {
 }
 
 UDPListener *AsioReactor::createUDPListener(const Endpoint &endpoint) {
-    return new UDPListener{endpoint, io_service_};
+    udp_listeners_.emplace_back(new UDPListener{endpoint, io_service_});
+    return udp_listeners_.back().get();
 }
 
 void AsioReactor::run() {
@@ -36,4 +37,8 @@ void AsioReactor::run() {
 
 void AsioReactor::stop() {
     io_service_.stop();
+    rmq_publisher_factory_.stop();
+    for (auto &udp_listener : udp_listeners_) {
+        udp_listener->stop();
+    }
 }

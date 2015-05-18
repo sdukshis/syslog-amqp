@@ -7,6 +7,10 @@
 
 #include "AbstractReactor.h"
 #include "AsioRabbitMQPublisherFactory.h"
+#include "UDPListener.h"
+
+#include <vector>
+#include <memory>
 
 #include <asio.hpp>
 
@@ -22,16 +26,16 @@ public:
 
     AsioReactor operator=(const AsioReactor &) = delete;
 
-
     virtual UDPListener *createUDPListener(const Endpoint &endpoint) override;
 
     virtual RabbitMQPublisher *createRabbitMQPublisher() override;
 
+    virtual void stop() override;
+
 private:
     asio::io_service io_service_;
     AsioRabbitMQPublisherFactory rmq_publisher_factory_;
-public:
-    virtual void stop() override;
+    std::vector<std::unique_ptr<UDPListener>> udp_listeners_;
 };
 
 

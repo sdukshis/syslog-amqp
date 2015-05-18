@@ -12,6 +12,8 @@ public:
     virtual ~RabbitMQPublisherFactory() {}
 
     virtual RabbitMQPublisher * createRabbitMQPublisher() = 0;
+
+    virtual void stop() = 0;
 };
 
 

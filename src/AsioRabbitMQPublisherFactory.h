@@ -7,6 +7,10 @@
 
 #include "RabbitMQPublisherFactory.h"
 #include "Endpoint.h"
+#include "RabbitMQPublisher.h"
+
+#include <vector>
+#include <memory>
 
 #include <asio.hpp>
 #include <amqpcpp.h>
@@ -19,6 +23,8 @@ public:
 
     AsioRabbitMQPublisherFactory &operator=(const AsioRabbitMQPublisherFactory &) = delete;
 
+    ~AsioRabbitMQPublisherFactory();
+
     virtual RabbitMQPublisher *createRabbitMQPublisher() override;
 
     virtual void onData(AMQP::Connection *connection, const char *buffer, size_t size) override;
@@ -28,6 +34,8 @@ public:
     virtual void onConnected(AMQP::Connection *connection) override;
 
     virtual void onClosed(AMQP::Connection *connection) override;
+
+    virtual void stop() override;
 
 protected:
     void doRead();
@@ -39,6 +47,7 @@ private:
     std::array<char, 64 * 1024> buffer_;
     std::unique_ptr<AMQP::Connection> connection_;
     bool async_mode_ = false;
+    std::vector<std::unique_ptr<RabbitMQPublisher>> publishers_;
 };
 
 

@@ -31,11 +31,11 @@ try {
     AsioReactor reactor;
 
     JsonMessageEncoder encoder;
-    std::unique_ptr<RabbitMQPublisher> rabbitmq_publisher{reactor.createRabbitMQPublisher()};
+    RabbitMQPublisher *rabbitmq_publisher{reactor.createRabbitMQPublisher()};
     PublishMessageObserver publish_observer{*rabbitmq_publisher, "events", RabbitMQPublisher::ExchangeType::Topic,
                                             "raw", encoder};
 
-    std::unique_ptr<UDPListener> udp_listener{reactor.createUDPListener(Endpoint{"0.0.0.0", 1313})};
+    UDPListener *udp_listener{reactor.createUDPListener(Endpoint{"0.0.0.0", 1313})};
     StdoutPublisher stdout_publisher{encoder};
     DataLogger data_logger;
 
@@ -49,6 +49,7 @@ try {
 
     reactor.run();
 
+    getchar();
     /* code */
     return EXIT_SUCCESS;
 } catch (const std::exception &e) {

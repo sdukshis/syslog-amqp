@@ -28,6 +28,8 @@ public:
     void basicPublish(const std::string &exchange, const std::string &routing_key, const char *data,
                       std::size_t length) override;
 
+    void close() override;
+
 protected:
     void doRead();
 

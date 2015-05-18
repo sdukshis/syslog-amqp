@@ -21,6 +21,7 @@ public:
 
     virtual void basicPublish(const std::string &exchange, const std::string &routing_key, const char *data,
                               std::size_t length) = 0;
+    virtual void close() = 0;
 };
 
 
