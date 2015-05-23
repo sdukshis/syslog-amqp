@@ -2,6 +2,9 @@
 
 #include <assert.h>
 
+#include "Logging.h"
+
+static auto &logger = Logger::getLogger("AsioRabbitMQPublisher");
 using namespace asio::ip;
 
 namespace {

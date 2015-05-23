@@ -5,6 +5,10 @@
 #include "AsioRabbitMQPublisherFactory.h"
 #include "AsioRabbitMQPublisher.h"
 
+#include "Logging.h"
+
+static auto & logger = Logger::getLogger("AsioRabbitMQPublisherFactory");
+
 using namespace asio::ip;
 
 AsioRabbitMQPublisherFactory::AsioRabbitMQPublisherFactory(const Endpoint &server_endpoint, asio::io_service &io)
@@ -32,7 +36,7 @@ AsioRabbitMQPublisherFactory::~AsioRabbitMQPublisherFactory() {
 }
 
 RabbitMQPublisher *AsioRabbitMQPublisherFactory::createRabbitMQPublisher() {
-    std::clog << "AsioRabbitMQPublisherFactory::createRabbitMQPublisher" << std::endl;
+    LOG_INFO(logger, "createRabbitMQPublisher");
     async_mode_ = false;
     publishers_.emplace_back(new AsioRabbitMQPublisher{new AMQP::Channel{connection_.get()}});
     async_mode_ = true;
@@ -41,7 +45,7 @@ RabbitMQPublisher *AsioRabbitMQPublisherFactory::createRabbitMQPublisher() {
 }
 
 void AsioRabbitMQPublisherFactory::onData(AMQP::Connection *, const char *buffer, size_t size) {
-    std::clog << "AsioRabbitMQPublisherFactory::onData: send " << size << " bytes\n";
+    LOG_DEBUG(logger, "send " << size << " bytes");
     if (async_mode_) {
         socket_.async_write_some(asio::buffer(buffer, size),
                                  [size](asio::error_code ec, size_t bytes_written) {
@@ -83,8 +87,7 @@ void AsioRabbitMQPublisherFactory::doRead() {
     while (!async_mode_) {
         asio::error_code ec;
         size_t bytes_read = socket_.read_some(asio::buffer(buffer_.data(), buffer_.size()), ec);
-        std::clog << "AsioRabbitMQPublisherFactory::doRead: read " << bytes_read << " bytes, ec:" << ec.message() <<
-        std::endl;
+        LOG_DEBUG(logger, "read " << bytes_read << " bytes");
         assert(!ec);
         size_t bytes_parsed = connection_->parse(buffer_.data(), bytes_read);
         assert(bytes_parsed == bytes_read);
