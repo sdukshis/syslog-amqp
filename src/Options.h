@@ -15,29 +15,44 @@ struct InputOptions {
     enum class Protocol {
         UDP,
     };
+
+    InputOptions(Protocol proto, Endpoint endp)
+            : protocol{proto}, endpoint{endp} { }
+
     Protocol protocol;
     Endpoint endpoint;
 };
 
-struct RabbitMQOptions {
-    RabbitMQOptions()
-            : endpoint{"localhost", 5672} {}
+struct OutputOptins {
+    enum class Type {
+        RabbitMQ,
+        Stdout,
+    };
+
+    OutputOptins(Type type_)
+            : type{type_}
+            , endpoint{"0.0.0.0", 0} { }
+
+    Type type;
     Endpoint endpoint;
     std::string exchange;
     std::string routing_key;
 };
 
 struct Options {
+    Options() = default;
     std::vector<InputOptions> inputs;
-    RabbitMQOptions output;
+    std::vector<OutputOptins> outputs;
 };
 
 std::string to_string(InputOptions::Protocol);
 
-std::ostream & operator<<(std::ostream &, const InputOptions &);
-std::ostream & operator<<(std::ostream &, const RabbitMQOptions &);
-std::ostream & operator<<(std::ostream &, const Options &);
+std::ostream &operator<<(std::ostream &, const InputOptions &);
 
-std::istream & operator>>(std::istream &, Options &);
+std::ostream &operator<<(std::ostream &, const OutputOptins &);
+
+std::ostream &operator<<(std::ostream &, const Options &);
+
+std::istream &operator>>(std::istream &, Options &);
 
 #endif //SYSLOG_AMQP_OPTIONS_H

@@ -13,7 +13,7 @@ set(SOURCES
     ${CMAKE_SOURCE_DIR}/src/JsonMessageEncoder.cpp
     ${CMAKE_SOURCE_DIR}/src/IniParser.cpp
     ${CMAKE_SOURCE_DIR}/src/Logging.cpp
-
+    ${CMAKE_SOURCE_DIR}/src/Options.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/3rd_party/gmock/include)
@@ -24,7 +24,7 @@ add_executable(syslog-amqp.test
     test_MessageId.cpp
     test_DataObserver.cpp
     test_Datetime.cpp
-test_Message.cpp test_Endpoint.cpp test_JsonMessageEncoder.cpp test_MessageObserver.cpp test_IniParser.cpp)
+test_Message.cpp test_Endpoint.cpp test_JsonMessageEncoder.cpp test_MessageObserver.cpp test_IniParser.cpp test_Options.cpp)
 
 target_link_libraries(syslog-amqp.test
     gtest_main

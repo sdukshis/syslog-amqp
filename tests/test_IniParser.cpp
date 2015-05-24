@@ -115,3 +115,20 @@ key=value# hash comment
 
     parser.parse(ss, &handler);
 }
+
+TEST(IniParser, EmptyHandler) {
+    std::string input = R"(
+; Some test comments
+; and more
+[test]
+   ; some more comments with special chars = [ ] ;
+key=value  ; key value comment
+
+key=value# hash comment
+)";
+    std::istringstream ss(input);
+    ss.unsetf(std::ios::skipws);
+
+    IniParser parser;
+    parser.parse(ss, nullptr);
+}
