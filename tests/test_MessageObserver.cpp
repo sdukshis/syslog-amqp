@@ -15,12 +15,12 @@ using ::testing::_;
 TEST(MessageObserver, SingleObserver) {
     MessageObservable observable;
 
-    MockMessageObserver mock_observer;
+    auto observer = std::make_shared<MockMessageObserver>();
 
-    EXPECT_CALL(mock_observer, onMessage(_))
+    EXPECT_CALL(*observer, onMessage(_))
             .Times(1);
 
-    observable.addObserver(&mock_observer);
+    observable.addObserver(observer);
 
     observable.notifyObservers(Message{Endpoint{"192.0.2.1", 1313}, "Hello"});
 }
@@ -28,15 +28,16 @@ TEST(MessageObserver, SingleObserver) {
 TEST(MessageObserver, TwoObservers) {
     MessageObservable observable;
 
-    MockMessageObserver first_observer;
+    auto first_observer = std::make_shared<MockMessageObserver>();
+    EXPECT_CALL(*first_observer, onMessage(_))
+            .Times(1);
 
-    EXPECT_CALL(first_observer, onMessage(_))
+    auto second_observer = std::make_shared<MockMessageObserver>();
+    EXPECT_CALL(*second_observer, onMessage(_))
             .Times(1);
-    MockMessageObserver second_observer;
-    EXPECT_CALL(second_observer, onMessage(_))
-            .Times(1);
-    observable.addObserver(&first_observer);
-    observable.addObserver(&second_observer);
+
+    observable.addObserver(first_observer);
+    observable.addObserver(second_observer);
 
     observable.notifyObservers(Message{Endpoint{"192.0.2.1", 1313}, "Hello"});
 }

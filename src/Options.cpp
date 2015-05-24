@@ -41,9 +41,11 @@ std::ostream &operator<<(std::ostream &stream, const Options &options) {
     for (const auto &input: options.inputs) {
         stream << input;
     }
+    stream << "], outputs: [";
     for (const auto &output: options.outputs) {
         stream << output;
     }
+    stream << "]";
     return stream;
 }
 
@@ -148,6 +150,7 @@ private:
 std::istream &operator>>(std::istream &stream, Options &options) {
     OptionsHandler handler;
     IniParser parser;
+    stream.unsetf(std::ios::skipws);
     parser.parse(stream, &handler);
     options = handler.getOptions();
 }

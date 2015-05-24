@@ -14,11 +14,11 @@ using ::testing::_;
 
 TEST(DataObservable, addSignleObserver) {
     DataObservable observable;
-    MockDataObserver observer;
+    auto observer = std::make_shared<MockDataObserver>();
 
-    observable.addObserver(&observer);
+    observable.addObserver(observer);
 
-    EXPECT_CALL(observer, onBegin(_, _))
+    EXPECT_CALL(*observer, onBegin(_, _))
                 .Times(1);
 
     observable.notifyObserversOnBegin(Endpoint{"", 0}, "");
@@ -27,14 +27,15 @@ TEST(DataObservable, addSignleObserver) {
 TEST(DataObservable, addTwoObservers) {
     DataObservable observable;
 
-    MockDataObserver first_observer, second_observer;
+    auto first_observer = std::make_shared<MockDataObserver>();
+    auto second_observer = std::make_shared<MockDataObserver>();
 
-    observable.addObserver(&first_observer);
-    observable.addObserver(&second_observer);
+    observable.addObserver(first_observer);
+    observable.addObserver(second_observer);
 
-    EXPECT_CALL(first_observer, onBegin(_, _))
+    EXPECT_CALL(*first_observer, onBegin(_, _))
                 .Times(1);
-    EXPECT_CALL(second_observer, onBegin(_, _))
+    EXPECT_CALL(*second_observer, onBegin(_, _))
                 .Times(1);
 
     observable.notifyObserversOnBegin(Endpoint{"", 0}, "");
@@ -43,26 +44,26 @@ TEST(DataObservable, addTwoObservers) {
 TEST(DataObservable, delObserver) {
     DataObservable observable;
 
-    MockDataObserver observer;
+    auto observer = std::make_shared<MockDataObserver>();
 
-    observable.addObserver(&observer);
+    observable.addObserver(observer);
 
-    EXPECT_CALL(observer, onBegin(_, _))
+    EXPECT_CALL(*observer, onBegin(_, _))
                 .Times(1);
 
     observable.notifyObserversOnBegin(Endpoint{"", 0}, "");
 
-    observable.delObserver(&observer);
+    observable.delObserver(observer);
     observable.notifyObserversOnBegin(Endpoint{"", 0}, "");
 }
 
 TEST(DataObservable, onData) {
     DataObservable observable;
-    MockDataObserver observer;
+    auto observer = std::make_shared<MockDataObserver>();
 
-    observable.addObserver(&observer);
+    observable.addObserver(observer);
 
-    EXPECT_CALL(observer, onData("12345", 5))
+    EXPECT_CALL(*observer, onData("12345", 5))
                 .Times(1);
 
     observable.notifyObserversOnData("12345", 5);
@@ -70,11 +71,11 @@ TEST(DataObservable, onData) {
 
 TEST(DataObservable, onEnd) {
     DataObservable observable;
-    MockDataObserver observer;
+    auto observer = std::make_shared<MockDataObserver>();
 
-    observable.addObserver(&observer);
+    observable.addObserver(observer);
 
-    EXPECT_CALL(observer, onEnd())
+    EXPECT_CALL(*observer, onEnd())
                 .Times(1);
 
     observable.notifyObserversOnEnd();
@@ -83,29 +84,29 @@ TEST(DataObservable, onEnd) {
 TEST(DataObservable, addObserverTwice) {
     DataObservable observable;
 
-    MockDataObserver observer;
+    auto observer = std::make_shared<MockDataObserver>();
 
-    observable.addObserver(&observer);
-    observable.addObserver(&observer);
+    observable.addObserver(observer);
+    observable.addObserver(observer);
 
-    EXPECT_CALL(observer, onBegin(_, _))
+    EXPECT_CALL(*observer, onBegin(_, _))
                 .Times(2);
 
     observable.notifyObserversOnBegin(Endpoint{"", 0}, "");
 
-    observable.delObserver(&observer);
+    observable.delObserver(observer);
     observable.notifyObserversOnBegin(Endpoint{"", 0}, "");
 }
 
 TEST(DataObservable, moveCtor) {
     DataObservable observable;
 
-    MockDataObserver observer;
+    auto observer = std::make_shared<MockDataObserver>();
 
-    EXPECT_CALL(observer, onBegin(_, _))
+    EXPECT_CALL(*observer, onBegin(_, _))
                 .Times(1);
 
-    observable.addObserver(&observer);
+    observable.addObserver(observer);
 
     DataObservable new_observable{std::move(observable)};
 
@@ -117,12 +118,12 @@ TEST(DataObservable, moveCtor) {
 TEST(DataObservable, moveAssignment) {
     DataObservable observable;
 
-    MockDataObserver observer;
+    auto observer = std::make_shared<MockDataObserver>();
 
-    EXPECT_CALL(observer, onBegin(_, _))
+    EXPECT_CALL(*observer, onBegin(_, _))
             .Times(1);
 
-    observable.addObserver(&observer);
+    observable.addObserver(observer);
 
     DataObservable new_observable;
 

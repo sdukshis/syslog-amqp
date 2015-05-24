@@ -16,13 +16,13 @@ MessageObservable & MessageObservable::operator=(MessageObservable &&other) {
     return *this;
 }
 
-void MessageObservable::addObserver(MessageObserver *observer) {
+void MessageObservable::addObserver(const std::shared_ptr<MessageObserver> &observer) {
     assert(observer != nullptr);
 
     observers_.emplace_back(observer);
 }
 
-void MessageObservable::delObserver(MessageObserver *observer) {
+void MessageObservable::delObserver(const std::shared_ptr<MessageObserver> &observer) {
     observers_.erase(std::remove(std::begin(observers_),
                                  std::end(observers_),
                                  observer),

@@ -1,60 +1,36 @@
-#include "UDPListener.h"
-#include "Decoder.h"
+#include <fstream>
+
 #include "Options.h"
 #include "Logging.h"
 
 #include "AsioReactor.h"
-
-#include "MessageObserver.h"
-#include "DataObserver.h"
-#include "PublishMessageObserver.h"
-#include "JsonMessageEncoder.h"
-#include "StdoutPublisher.h"
+#include "ReactorBuilder.h"
 
 static auto &logger = Logger::getLogger("SyslogAmqp");
 
-class DataLogger: public DataObserver {
- public:
-    void onBegin(const Endpoint &, const std::string &) override {
-
-    }
-
-    void onData(const char *buffer, std::size_t lenght) override {
-        LOG_DEBUG(logger, "Data received: " << std::string(buffer, lenght));
-    }
-
-    void onEnd() override {}
-};
-
 int main(int , char const *[])
 try {
+    LOG_INFO(logger, "Starting up")
     logger.loglevel(Logger::Loglevel::Debug);
+
+    std::ifstream config("syslog-amqp.conf");
+    if (!config.is_open()) {
+        throw std::invalid_argument("couldn't open config file");
+    }
     Options options;
+    config >> options;
     LOG_INFO(logger, "Options: " << options);
+
     AsioReactor reactor;
+    ReactorBuilder builder;
+    builder.buildFromOptions(reactor, options);
 
-    JsonMessageEncoder encoder;
-//    RabbitMQPublisher *rabbitmq_publisher{reactor.createRabbitMQPublisher()};
-//    PublishMessageObserver publish_observer{*rabbitmq_publisher, "events", RabbitMQPublisher::ExchangeType::Topic,
-//                                            "raw", encoder};
-
-    UDPListener *udp_listener{reactor.createUDPListener(Endpoint{"0.0.0.0", 1313})};
-    StdoutPublisher stdout_publisher{encoder};
-    DataLogger data_logger;
-
-    Decoder decoder;
-
-    decoder.addObserver(&stdout_publisher);
-//    decoder.addObserver(&publish_observer);
-
-    udp_listener->addObserver(&data_logger);
-    udp_listener->addObserver(&decoder);
-
+    LOG_INFO(logger, "Reactor run")
     reactor.run();
 
-    /* code */
+    LOG_INFO(logger, "Finishing");
     return EXIT_SUCCESS;
 } catch (const std::exception &e) {
-    std::cerr << "Fatal error: " << e.what() << std::endl;
+    LOG_FATAL(logger, e.what());
     return EXIT_FAILURE;
 }

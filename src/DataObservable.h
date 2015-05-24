@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 class DataObserver;
 class Endpoint;
@@ -21,9 +22,9 @@ class DataObservable {
 
     DataObservable & operator=(DataObservable &&);
 
-    void addObserver(DataObserver *);
+    void addObserver(const std::shared_ptr<DataObserver> &);
 
-    void delObserver(DataObserver *);
+    void delObserver(const std::shared_ptr<DataObserver> &);
 
     void notifyObserversOnBegin(const Endpoint &recv_host,
                                 const std::string &tag);
@@ -33,7 +34,7 @@ class DataObservable {
     void notifyObserversOnEnd();
 
  private:
-    std::vector<DataObserver *> observers_;
+    std::vector<std::shared_ptr<DataObserver>> observers_;
 };  // class DataObservable
 
 #endif  // DATAOBSERVABLE_H

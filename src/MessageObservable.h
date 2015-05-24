@@ -2,6 +2,7 @@
 #define MESSAGEOBSERVABLE_H
 
 #include <vector>
+#include <memory>
 
 class Message;
 class MessageObserver;
@@ -20,14 +21,14 @@ class MessageObservable {
 
     MessageObservable & operator=(MessageObservable &&);
 
-    void addObserver(MessageObserver *);
+    void addObserver(const std::shared_ptr<MessageObserver> &);
 
-    void delObserver(MessageObserver *);
+    void delObserver(const std::shared_ptr<MessageObserver> &);
 
     void notifyObservers(const Message &);
 
  private:
-    std::vector<MessageObserver *> observers_;
+    std::vector<std::shared_ptr<MessageObserver>> observers_;
 };  // class MessageObservable
 
 #endif  // MESSAGEOBSERVABLE_H

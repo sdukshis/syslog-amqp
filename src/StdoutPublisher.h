@@ -7,15 +7,20 @@
 
 #include "MessageObserver.h"
 
+#include <memory>
+
 class MessageEncoder;
 
 class StdoutPublisher : public MessageObserver {
 public:
-    StdoutPublisher(MessageEncoder &);
+    StdoutPublisher(const std::shared_ptr<MessageEncoder> &);
+
+    ~StdoutPublisher() { }
+
     virtual void onMessage(const Message &message) override;
 
 private:
-    MessageEncoder &encoder_;
+    std::shared_ptr<MessageEncoder> encoder_;
 };
 
 

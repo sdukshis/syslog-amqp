@@ -16,12 +16,12 @@ DataObservable & DataObservable::operator=(DataObservable &&other) {
     return *this;
 }
 
-void DataObservable::addObserver(DataObserver *observer) {
+void DataObservable::addObserver(const std::shared_ptr<DataObserver> &observer) {
     assert(observer != nullptr);
     observers_.emplace_back(observer);
 }
 
-void DataObservable::delObserver(DataObserver *observer) {
+void DataObservable::delObserver(const std::shared_ptr<DataObserver> &observer) {
     assert(observer != nullptr);
     observers_.erase(std::remove(std::begin(observers_),
                                  std::end(observers_),

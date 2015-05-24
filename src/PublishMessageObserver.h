@@ -2,6 +2,7 @@
 #define SYSLOG_AMQP_PUBLISHMESSAGEOBSERVER_H
 
 #include <string>
+#include <memory>
 
 #include "MessageObserver.h"
 #include "MessageEncoder.h"
@@ -9,8 +10,9 @@
 
 class PublishMessageObserver : public MessageObserver {
 public:
-    PublishMessageObserver(RabbitMQPublisher &, const std::string &exchange, RabbitMQPublisher::ExchangeType,
-                           const std::string &routing_key, MessageEncoder &);
+    PublishMessageObserver(RabbitMQPublisher &, const std::string &exchange,
+                           RabbitMQPublisher::ExchangeType,
+                           const std::string &routing_key, const std::shared_ptr<MessageEncoder> &);
 
     PublishMessageObserver(const PublishMessageObserver &) = delete;
 
@@ -25,7 +27,7 @@ private:
     std::string exchange_;
     RabbitMQPublisher::ExchangeType exchange_type_;
     std::string routing_key_;
-    MessageEncoder &encoder_;
+    std::shared_ptr<MessageEncoder> encoder_;
 };
 
 
