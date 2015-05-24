@@ -153,4 +153,5 @@ std::istream &operator>>(std::istream &stream, Options &options) {
     stream.unsetf(std::ios::skipws);
     parser.parse(stream, &handler);
     options = handler.getOptions();
+    return stream;
 }

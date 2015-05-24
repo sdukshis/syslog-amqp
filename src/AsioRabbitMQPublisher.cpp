@@ -33,14 +33,14 @@ AsioRabbitMQPublisher::~AsioRabbitMQPublisher() {
 
 void AsioRabbitMQPublisher::declareExchange(const std::string &name, ExchangeType type) {
     assert(channel_);
-    std::clog << "AsioRabbitMQPublisher::declareExchange" << std::endl;
+    LOG_DEBUG(logger, "Declare exchange: " << name);
     channel_->declareExchange(name, convert_exchange_type(type));
 }
 
 void AsioRabbitMQPublisher::basicPublish(const std::string &exchange, const std::string &routing_key, const char *data,
                                          std::size_t length) {
     assert(channel_);
-    std::clog << "AsioRabbitMQPublisher::basicPublish" << std::endl;
+    LOG_TRACE(logger, "basicPublish " << length << " bytes to " << exchange << " as " << routing_key);
     channel_->publish(exchange, routing_key, data, length);
 }
 

@@ -34,7 +34,7 @@ public:
 
     bool enabled(Loglevel ll) { return ll >= loglevel_; }
 
-    void log(const std::string &file, const std::string &func, size_t line, const std::string &msg);
+    void log(const std::string &file, const std::string &func, size_t line, Loglevel, const std::string &msg);
 
     static Logger & getLogger(const std::string &name);
 
@@ -44,11 +44,13 @@ private:
     Logger(const std::string &name);
 };
 
+std::ostream & operator<<(std::ostream &, Logger::Loglevel);
+
 #define LOG(logger, level, msg)                             \
     if (logger.enabled(level)){                             \
         std::stringstream ss;                               \
         ss << msg;                                          \
-        logger.log(__FILE__, __PRETTY_FUNCTION__, __LINE__, ss.str()); \
+        logger.log(__FILE__, __PRETTY_FUNCTION__, __LINE__, level, ss.str()); \
     }
 
 #define LOG_TRACE(logger, msg) LOG(logger, Logger::Loglevel::Trace, msg)
