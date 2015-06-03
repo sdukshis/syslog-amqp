@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(syslog-amqp CXX)
+project(syslog-amqp C CXX)
 
 add_definitions(-g)
 add_definitions(-Wall)

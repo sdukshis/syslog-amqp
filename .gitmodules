@@ -1,12 +1,12 @@
 [submodule "3rd_party/asio"]
 	path = 3rd_party/asio
-	url = git@github.com:chriskohlhoff/asio.git
-[submodule "3rd_party/gmock"]
-	path = 3rd_party/gmock
-	url = git@github.com:mecury421/gmock.git
-[submodule "3rd_party/rapidjson"]
-	path = 3rd_party/rapidjson
-	url = git@github.com:miloyip/rapidjson.git
+	url = https://github.com/chriskohlhoff/asio.git
 [submodule "3rd_party/amqp-cpp"]
 	path = 3rd_party/amqp-cpp
-	url = git@github.com:CopernicaMarketingSoftware/AMQP-CPP.git
+	url = https://github.com/CopernicaMarketingSoftware/AMQP-CPP.git
+[submodule "3rd_party/rapidjson"]
+	path = 3rd_party/rapidjson
+	url = https://github.com/miloyip/rapidjson.git
+[submodule "3rd_party/gmock"]
+	path = 3rd_party/gmock
+	url = https://github.com/mecury421/gmock.git

@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include <../src/MessageId.h>
+
+#include "../src/MessageId.h"
 
 #include <regex>
 #include <string>

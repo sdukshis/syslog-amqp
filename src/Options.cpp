@@ -13,6 +13,8 @@ std::string to_string(InputOptions::Protocol protocol) {
     switch (protocol) {
         case InputOptions::Protocol::UDP:
             return "UDP";
+        default:
+            throw std::logic_error{"Unknown protocol type"};
     }
 }
 

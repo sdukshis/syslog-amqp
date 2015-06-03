@@ -1,4 +1,4 @@
-find_package(Threads)
+find_package(Threads REQUIRED)
 
 set(SOURCES
     UDPListener.cpp
@@ -20,5 +20,4 @@ add_executable(${PROJECT_NAME} main.cpp ${SOURCES} RabbitMQPublisherFactory.h As
 target_link_libraries(${PROJECT_NAME}
     amqp-cpp
     ${CMAKE_THREAD_LIBS_INIT}
-#    asan
 )

@@ -7,6 +7,7 @@
 
 #include <string>
 #include <istream>
+#include <stdexcept>
 
 class SyntaxError: public std::invalid_argument {
 public:
