@@ -16,10 +16,13 @@ include_directories(3rd_party/asio/asio/include)
 include_directories(3rd_party/rapidjson/include)
 
 add_definitions(-Wno-unused-parameter)
+add_definitions(-Wno-extra)
 add_subdirectory(3rd_party/amqp-cpp)
+remove_definitions(-Wno-extra)
 remove_definitions(-Wno-unused-parameter)
 
 add_subdirectory(src)
 
+enable_testing()
 add_subdirectory(tests)
 

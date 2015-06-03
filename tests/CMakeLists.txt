@@ -1,5 +1,10 @@
+set(TEST_NAME syslog-amqp.test)
+
 add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
+
 add_definitions(-Wno-error)
+add_definitions(-Wno-unused-local-typedefs)
+add_definitions(-Wno-unused-parameter)
 add_subdirectory(${CMAKE_SOURCE_DIR}/3rd_party/gmock
                  ${CMAKE_CURRENT_BINARY_DIR}/gmock)
 
@@ -19,16 +24,21 @@ set(SOURCES
 include_directories(${CMAKE_SOURCE_DIR}/3rd_party/gmock/include)
 include_directories(${CMAKE_SOURCE_DIR}/3rd_party/gmock/gtest/include)
 
-add_executable(syslog-amqp.test
+add_executable(${TEST_NAME}
     ${SOURCES}
     test_MessageId.cpp
     test_DataObserver.cpp
     test_Datetime.cpp
 test_Message.cpp test_Endpoint.cpp test_JsonMessageEncoder.cpp test_MessageObserver.cpp test_IniParser.cpp test_Options.cpp)
 
-target_link_libraries(syslog-amqp.test
+target_link_libraries(${TEST_NAME}
     gtest_main
     gtest
     gmock
-#    asan
 )
+
+remove_definitions(-Wno-error)
+remove_definitions(-Wno-unused-local-typedefs)
+remove_definitions(-Wno-unused-parameter)
+
+add_test(Unittests syslog-amqp.test)

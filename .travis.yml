@@ -2,8 +2,9 @@ lang: cpp
 compiler:
     - clang
 script:
-    - mkdir build && cd build
+    - mkdir build
+    - cd build
     - cmake ..
     - make
-    - ./build/tests/syslog-amqp.test
+    - make test
 

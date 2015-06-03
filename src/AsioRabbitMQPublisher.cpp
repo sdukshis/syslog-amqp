@@ -16,6 +16,8 @@ namespace {
                 return AMQP::ExchangeType::fanout;
             case RabbitMQPublisher::ExchangeType::Direct:
                 return AMQP::ExchangeType::direct;
+            default:
+                throw std::logic_error{"Unknown ExchangeType"};
         }
     }
 }
