@@ -8,8 +8,12 @@ before_install:
     - wget http://www.cmake.org/files/v3.2/cmake-3.2.3-Linux-x86_64.tar.gz
     - tar -zxf cmake-3.2.3-Linux-x86_64.tar.gz
     - cmake-3.2.3-Linux-x86_64/bin/cmake --version
+    - sudo add-apt-repository ppa:h-rayflood/llvm
+    - sudo apt-get -qq update 
+    - sudo apt-get install clang-3.6
+    - export CXX="clang++-3.6"
 before_script:
-    - cmake-3.2.3-Linux-x86_64/bin/cmake ..
+    - cmake-3.2.3-Linux-x86_64/bin/cmake .. 
 script:
     - make
 after_success:
