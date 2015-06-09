@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
+#include "gtest-inc.h"
+
 #include "../src/DataObserver.h"
 #include "../src/DataObservable.h"
 

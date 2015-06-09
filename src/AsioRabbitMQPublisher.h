@@ -10,7 +10,7 @@
 #include "RabbitMQPublisher.h"
 #include "Endpoint.h"
 
-#include <asio.hpp>
+#include "asio-inc.h"
 #include <amqpcpp.h>
 
 class AsioRabbitMQPublisher : public RabbitMQPublisher {

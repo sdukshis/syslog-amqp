@@ -18,9 +18,11 @@ include_directories(3rd_party/rapidjson/include)
 
 add_definitions(-Wno-unused-parameter)
 add_definitions(-Wno-extra)
+add_definitions(-Wno-inconsistent-missing-override)
 add_subdirectory(3rd_party/amqp-cpp)
 remove_definitions(-Wno-extra)
 remove_definitions(-Wno-unused-parameter)
+remove_definitions(-Wno-inconsistent-missing-override)
 
 add_subdirectory(src)
 

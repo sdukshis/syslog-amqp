@@ -12,7 +12,7 @@
 #include <vector>
 #include <memory>
 
-#include <asio.hpp>
+#include "asio-inc.h"
 
 class AsioReactor : public AbstractReactor {
 public:

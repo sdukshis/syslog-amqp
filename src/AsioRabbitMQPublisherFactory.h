@@ -12,7 +12,7 @@
 #include <vector>
 #include <memory>
 
-#include <asio.hpp>
+#include "asio-inc.h"
 #include <amqpcpp.h>
 
 class AsioRabbitMQPublisherFactory : public RabbitMQPublisherFactory, public AMQP::ConnectionHandler {

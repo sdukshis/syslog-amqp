@@ -2,8 +2,7 @@
 // Created by Pavel Filonov on 23.05.15.
 //
 
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
+#include "gtest-inc.h"
 
 #include "../src/IniParser.h"
 #include "../src/Logging.h"

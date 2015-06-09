@@ -1,28 +1,26 @@
 set(TEST_NAME syslog-amqp.test)
 
 add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
-
-add_definitions(-Wno-error)
 add_definitions(-Wno-unused-local-typedefs)
-add_definitions(-Wno-unused-parameter)
-add_subdirectory(${CMAKE_SOURCE_DIR}/3rd_party/gmock
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../3rd_party/gmock
                  ${CMAKE_CURRENT_BINARY_DIR}/gmock)
 
 set(SOURCES
-    ${CMAKE_SOURCE_DIR}/src/DataObservable.cpp
-    ${CMAKE_SOURCE_DIR}/src/MessageObservable.cpp
-    ${CMAKE_SOURCE_DIR}/src/MessageId.cpp
-    ${CMAKE_SOURCE_DIR}/src/Datetime.cpp
-    ${CMAKE_SOURCE_DIR}/src/Message.cpp
-    ${CMAKE_SOURCE_DIR}/src/Endpoint.cpp
-    ${CMAKE_SOURCE_DIR}/src/JsonMessageEncoder.cpp
-    ${CMAKE_SOURCE_DIR}/src/IniParser.cpp
-    ${CMAKE_SOURCE_DIR}/src/Logging.cpp
-    ${CMAKE_SOURCE_DIR}/src/Options.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/DataObservable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/MessageObservable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/MessageId.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/Datetime.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/Message.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/Endpoint.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/JsonMessageEncoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/IniParser.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/Logging.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../src/Options.cpp
 )
 
-include_directories(${CMAKE_SOURCE_DIR}/3rd_party/gmock/include)
-include_directories(${CMAKE_SOURCE_DIR}/3rd_party/gmock/gtest/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd_party/gmock/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd_party/gmock/gtest/include)
 
 add_executable(${TEST_NAME}
     ${SOURCES}
@@ -36,9 +34,5 @@ target_link_libraries(${TEST_NAME}
     gtest
     gmock
 )
-
-remove_definitions(-Wno-error)
-remove_definitions(-Wno-unused-local-typedefs)
-remove_definitions(-Wno-unused-parameter)
 
 add_test(Unittests syslog-amqp.test)

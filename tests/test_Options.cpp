@@ -2,7 +2,7 @@
 // Created by Pavel Filonov on 23.05.15.
 //
 
-#include <gtest/gtest.h>
+#include "gtest-inc.h"
 
 #include "../src/Options.h"
 

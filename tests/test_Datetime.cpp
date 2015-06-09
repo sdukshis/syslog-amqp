@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+#include "gtest-inc.h"
 
 #include "../src/Datetime.h"
 #include <ctime>

@@ -5,7 +5,7 @@
 
 #include <system_error>
 
-#include <asio.hpp>
+#include "asio-inc.h"
 
 #include "Endpoint.h"
 #include "DataObservable.h"
