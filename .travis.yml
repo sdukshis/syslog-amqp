@@ -1,4 +1,4 @@
-lang: cpp
+language: cpp
 sudo: required
 compiler:
     - clang
@@ -10,7 +10,7 @@ before_install: |
     tar -zxf cmake-3.2.3-Linux-x86_64.tar.gz
     cmake-3.2.3-Linux-x86_64/bin/cmake --version
     sudo add-apt-repository -y 'deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu precise main'
-    if [ "$CXX" = "clang" ]; then
+    if [ "$CXX" == "clang" ]; then
         sudo add-apt-repository -y 'deb http://llvm.org/apt/precise/ llvm-toolchain-precise-3.6 main'
         wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key|sudo apt-key add -
         sudo apt-get -y -qq update
@@ -18,7 +18,7 @@ before_install: |
         export CXX="clang++-3.6"
         export CC="clang-3.6"
     fi
-    if [ "$CXX" = "g++" ]; then
+    if [ "$CXX" == "g++" ]; then
         sudo apt-get -y -qq update
         sudo apt-get install g++-4.9
         export CXX="g++-4.9"
