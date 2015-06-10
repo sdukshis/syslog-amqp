@@ -2,7 +2,7 @@ lang: cpp
 sudo: required
 compiler:
     - clang
-    - g++
+    - gcc
 before_install: |
     mkdir build
     pushd build
