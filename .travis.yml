@@ -16,11 +16,13 @@ before_install: |
         sudo apt-get -y -qq update
         sudo apt-get install clang-3.6
         export CXX="clang++-3.6"
+        export CC="clang-3.6"
     fi
-    if [ "$CXX" = "g++"]; then
+    if [ "$CXX" = "g++" ]; then
         sudo apt-get -y -qq update
         sudo apt-get install g++-4.9
         export CXX="g++-4.9"
+        export CC="gcc-4.9"
     fi
 before_script:
     - cmake-3.2.3-Linux-x86_64/bin/cmake .. 
