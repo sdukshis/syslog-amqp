@@ -1,10 +1,22 @@
 set(TEST_NAME syslog-amqp.test)
 
 add_definitions(-DGTEST_USE_OWN_TR1_TUPLE=1)
-add_definitions(-Wno-unused-local-typedefs)
+
+if (${CMAKE_CXX_COMPILER_ID} STREQUAL Clang)
+    add_definitions(-Wno-unused-private-field)
+elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
+    add_definitions(-Wno-unused-local-typedefs)
+endif()
+
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../3rd_party/gmock
                  ${CMAKE_CURRENT_BINARY_DIR}/gmock)
+
+if (CMAKE_CXX_COMPILER_ID EQUAL "Clang")
+    remove_definitions(-Wno-unused-private-field)
+elseif(CMAKE_CXX_COMPILER_ID EQUAL "GNU")
+    remove_definitions(-Wno-unused-local-typedefs)
+endif()
 
 set(SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/../src/DataObservable.cpp
