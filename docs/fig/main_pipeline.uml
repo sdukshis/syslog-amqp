@@ -1,0 +1,9 @@
+@startuml
+
+actor LogSource
+actor RabbitMQ
+
+LogSource -> SyslogAmqp: send
+SyslogAmqp -> SyslogAmqp: enrich
+SyslogAmqp -> RabbitMQ: publish
+@enduml
