@@ -1,0 +1,30 @@
+@startuml
+
+package "Syslog Amqp" {
+    frame "Прием сообщений" {
+        [Транспортный слой] as recv_transport
+        [Слой представления] as recv_repr
+    }
+    [Обработка сообщений] as processor
+    frame "Отправка сообщений" {
+        [Транспортный слой] as pub_transport
+        [Слой представления] as pub_repr
+    }
+}
+
+[Источник] as source
+
+[Получатель] as rmq
+
+source --> recv_transport
+
+recv_transport --> recv_repr
+
+recv_repr --> processor
+processor --> pub_repr
+
+pub_repr --> pub_transport
+
+pub_transport --> rmq
+
+@enduml
